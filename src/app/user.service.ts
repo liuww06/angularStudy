@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from './user';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { MessageService } from './message.service';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
   url='http://localhost:19092/api/User/';
-  constructor(private httpClient:HttpClient,private messageService: MessageService) { }
+  constructor(private httpClient:HttpClient,private messageService: MessageService) { 
+  }
+
 
   public Search(keywords:string){
-    return this.httpClient.get<User>(this.url+'Search/'+keywords).pipe(tap(data=>this.messageService.add('UserService.Search')))
+    this.messageService.add("userService search keywords:"+keywords);
+    return this.httpClient.get<User>(this.url+'Search/'+keywords).pipe(tap(data=>this.messageService.add('UserService.Search')),catchError(this.handleError));
   }
 
   public getUser(id:number){
