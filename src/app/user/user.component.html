@@ -1,0 +1,8 @@
+<input  #searchBox type="search" name="keywords" id="keywords" (keyup)="search(searchBox.value)" placeholder="姓名">
+<form action="put">
+  <label for="name">姓名</label>
+  <input type="text" name="name" id="name" [(ngModel)]="users.username">
+</form>
+<p *ngIf="this.error" style='color: red'>
+  {{error}}
+</p>
